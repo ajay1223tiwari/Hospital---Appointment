@@ -12,7 +12,7 @@
     "start": "node index.js",
     "start-dev": "nodemon index.js"
   },
-  "author": "Naman",
+  "author": "Ajay tiwari",
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.12.3",
