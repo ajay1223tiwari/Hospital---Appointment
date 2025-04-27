@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { formatDate } from "../../utils/formatDate";
+import { formatDate } from "../../utils/formatDate.jsx";
 
 const Appointments = ({ appointments }) => {
     // Filter only the paid appointments

@@ -5,31 +5,25 @@ import Stripe from 'stripe'
 
 export const getCheckOutSession = async (req,res) => {
 
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-
+    
     try{
-        const doctor = await Doctor.findById(req.params.doctorId)
-        const user = await User.findById(req.userId);
+        const doctor = await Doctor.findById(req.params.doctorId);
+        const user = await User.findById(req.userId)
 
-        const booking = new Booking({
-            doctor: doctor._id,
-            user: user._id,
-            ticketPrice: doctor.ticketPrice,
-        })
-        await booking.save();
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
         //create stripe checkout session
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             mode: 'payment',
-            success_url: `${process.env.CLIENT_SITE_URL}/verify?success=true&bookingId=${booking._id}`,
-            cancel_url: `${process.env.CLIENT_SITE_URL}/verify?success=false&bookingId=${booking._id}`,
+            success_url: `${process.env.CLIENT_SITE_URL}/checkout-success`,
+            cancel_url: `${req.protocol}://${req.get('host')}/doctors/${doctor.id}`,
             customer_email: user.email,
             client_reference_id: req.params.doctorId,
             line_items: [
                 {
                     price_data: {
-                        currency: 'inr',
+                        currency: 'Inr',
                         unit_amount: doctor.ticketPrice * 100,
                         product_data: {
                             name: doctor.name,
@@ -41,62 +35,17 @@ export const getCheckOutSession = async (req,res) => {
                 }
             ]
         })
-        res.status(200).json({success: true, message: "Successfully paid", session_url: session.url})
+        const booking = new Booking({
+          doctor:doctor.id,
+          user:user.id,
+          ticketPrice:doctor.ticketPrice,
+          session:session.id
+        })
+        await booking.save()
+        res.status(200).json({success: true, message: "Successfully paid", session})
     }catch(err){
+      console.log(err)
         res.status(500).json({success: false, message: "Payment failed, try again"})
     }
 };
 
-export const verifyBooking = async (req,res) => {
-    const {bookingId, success} = req.body;
-    try{
-        if(success === "true"){
-            await Booking.findByIdAndUpdate(bookingId, {isPaid: true});
-            res.status(200).json({success: true, message:"Paid"})
-        }
-        else{
-            await Booking.findByIdAndDelete(bookingId);
-            res.status(200).json({success: false, message: "Not paid"})
-        }
-    }catch(error){
-        res.status(500).json({success:false, message: err.message})
-    }
-}
-
-export const getAllAppointments = async (req, res) => {
-    try {
-      const appointments = await Booking.find({});
-      res.status(200).json({
-        success: true,
-        data: appointments,
-      });
-    } catch (error) {
-      res.status(500).json({
-        success: false,
-        message: error.message,
-      });
-    }
-};
-
-export const updateStatus = async (req, res) => {
-    try {
-      const { id } = req.params;
-      const { status } = req.body;
-  
-      if (!['pending', 'approved', 'cancelled'].includes(status)) {
-        return res.status(400).json({ message: 'Invalid status value' });
-      }
-  
-      const appointment = await Booking.findByIdAndUpdate(id, { status }, { new: true });
-  
-      if (!appointment) {
-        return res.status(404).json({ message: 'Appointment not found' });
-      }
-  
-      res.status(200).json(appointment);
-    } catch (error) {
-      console.error('Error updating status:', error);
-      res.status(500).json({ message: 'Server error' });
-    }
-  };
-  

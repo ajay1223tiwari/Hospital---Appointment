@@ -34,15 +34,15 @@
     }
 
     .form_label{
-        @apply text-textColor font-[600] text-[14px] leading-7 mb-2;
+        @apply text-textColor font-semibold  text-[16px] leading-7 mb-2;
     }
 
     .form_input{
-        @apply text-headingColor w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor leading-7 placeholder:text-textColor placeholder:md:text-[16px] text-[14px] md:text-[16px] cursor-pointer rounded-md;
+        @apply  w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor leading-7 text-[16px] text-headingColor placeholder:text-textColor cursor-pointer rounded-lg;
     }
 }
 
-@media (max-width: 1024px){
+@media only screen and (max-width: 1024px){
     .container{
         @apply w-full px-8;
     }
@@ -52,7 +52,7 @@
     }
 }
 
-@media (max-width: 768px){
+@media only screen and (max-width: 768px){
     .heading{
         @apply text-[26px] leading-[36px];
     }

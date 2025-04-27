@@ -1,113 +1,49 @@
-import { toast } from "react-toastify";
-import { BASE_URL } from "../config";
+import React from 'react'
 
-const Contact = () => {
-
-  const handleButtonSubmit = async (event) => {
-    event.preventDefault();
-  
-    const name = document.getElementById('name').value.trim();  
-    const email = document.getElementById('email').value.trim();
-    const subject = document.getElementById('subject').value.trim();
-    const message = document.getElementById('message').value.trim();
-  
-    if (!name || !email || !subject || !message) {  
-      toast.error('Please fill out all the fields.');
-      return;
-    }
-  
-    try {
-      const response = await fetch(`${BASE_URL}/messages`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, subject, message }),  
-      });
-  
-      if (response.ok) {
-        toast.success('Message sent successfully');
-        document.getElementById('name').value = '';  
-        document.getElementById('email').value = '';
-        document.getElementById('subject').value = '';
-        document.getElementById('message').value = '';
-      } else {
-        const data = await response.json();
-        toast.error(data.message || 'Failed to send message');
-      }
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-  
-
+export default function Contact() {
   return (
-    <section className="pt-[30px] sm:pt-[45px]">
-      <div className="px-4 mx-auto max-w-[570px] md:max-w-[692px]">
-        <h2 className="text-headingColor font-bold text-center text-[36px]">
-          Contact Us
-        </h2>
-        <p className="mb-8 lf:mb-12 font-400 text-center text-[16px] md:text-[17px] text-textColor">
-          Got a technical issue? Want to send feedback about a beta feature? Let
-          us know.
-        </p>
-        <form onSubmit={handleButtonSubmit}>
-          <div className="mb-5">
-            <label htmlFor="name" className="form_label">
-              Your name
-            </label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Enter your name"
-              className="form_input mt-1"
-              required
-            />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="email" className="form_label">
-              Your Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              placeholder="example@gmail.com"
-              className="form_input mt-1"
-              required
-            />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="subject" className="form_label">
-              Subject
-            </label>
-            <input
-              type="text"
-              id="subject"
-              placeholder="Let us know how can we help you*"
-              className="form_input mt-1"
-              required
-            />
-          </div>
-          <div className="mb-5">
-            <label htmlFor="message" className="form_label">
-              Your Message
-            </label>
-            <textarea
-              name="message"
-              id="message"
-              placeholder="Leave a comment..."
-              className="form_input mt-1"
-              rows="6"
-              required
-            ></textarea>
-          </div>
-          <button className="bg-primaryColor text-white text-[600] text-[18px] md:text-[20px] px-6 md:px-8 py-3 rounded" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
-    </section>
-  );
-};
+    <section>
+    <div className='px-4 mx-auto max-w-screen-md'>
+      <h2 className='heading text-center'> Contact Us</h2>
+      <p className='mb-8 lg:mb-16 font-light text-center text__para'>Got a technical issue? Want to send feedback about a beta feature? Let 
+        us know.
+      </p>
+      <form action="#" className='space-y-8'>
+        <div>
+          <label htmlFor="email" className='text-textColor font-semibold  text-[16px] leading-7 mb-2'>
+            Your Email
 
-export default Contact;
+          </label>
+          <input type="email" id="email" placeholder='example@gmail.com' className=' w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor leading-7 text-[16px] text-headingColor placeholder:text-textColor cursor-pointer rounded-lg' />
+        </div>
+
+      
+    <div>
+          <label htmlFor="subject" className='text-textColor font-semibold  text-[16px] leading-7 mb-2'>
+           Subject
+
+          </label>
+          <input type="text" id="subject" placeholder='Let us know how we can help you' className=' w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor leading-7 text-[16px] text-headingColor placeholder:text-textColor cursor-pointer rounded-lg' />
+        </div>
+
+        <div className='sm:col-span-2'>
+          <label htmlFor="message" className='text-textColor font-semibold  text-[16px] leading-7 mb-2'>
+          Your message
+
+          </label>
+         
+          <textarea
+        rows="6"  
+          type="text" id="message" placeholder='Leave a comment....' className=' w-full px-4 py-3 border border-solid border-[#0066ff61] focus:outline-none focus:border-primaryColor leading-7 text-[16px] text-headingColor placeholder:text-textColor cursor-pointer rounded-lg' />
+       
+        </div>
+        <button   type='submit' className='btn rounded sm:w-fit'> Submit</button>
+
+        </form>
+
+    </div>
+
+  </section>
+  )
+}
+

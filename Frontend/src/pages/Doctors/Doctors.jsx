@@ -1,7 +1,7 @@
 import { BASE_URL } from "../../config";
-import useFetchData from "../../hooks/useFetchData.js";
+import useFetchData from "../../hooks/useFetchData.jsx";
 import DoctorCard from "../../components/Doctors/DoctorCard";
-import Testimonials from "../../components/Testimonials/Testimonials";
+import Testimonials from "../../components/Testimonial/Testimonial";
 import Error from "../../components/Error/Error.jsx";
 import Loader from "../../components/Loader/Loading.jsx";
 import { useEffect, useState } from "react";

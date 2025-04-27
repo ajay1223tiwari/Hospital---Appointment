@@ -14,7 +14,7 @@ const useFetchData = (url) => {
           headers: { Authorization: `Bearer ${token}` },
         });
         const result = await res.json();
-        //console.log("Result", result);
+        console.log("Result", result);
         if (!res.ok) {
           throw new Error(result.message);
         }
@@ -25,8 +25,8 @@ const useFetchData = (url) => {
         setError(err.message);
       }
     };
-    fetchData();
-  }, [url]);
+    fetchData()
+  }, [url])
 
   return { data, loading, error };
 };

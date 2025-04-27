@@ -1,10 +1,15 @@
 import { useState } from "react";
 import signupImg from "../assets/images/signup.gif";
+import avatar from '../assets/images/doctor-img01.png'
+import { BASE_URL} from "../config.js"
+
 import { Link, useNavigate } from "react-router-dom";
-import uploadImageToCloudinary from "../utils/uploadCloudinary.js";
-import { BASE_URL } from "../config.js";
-import { toast } from "react-toastify";
-import HashLoader from "react-spinners/HashLoader";
+import uploadImageToCloudinary from "../utils/uploadCloudinary"
+
+import {toast} from 'react-toastify'
+import HashLoader from 'react-spinners/HashLoader'
+
+
 
 const Signup = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -21,27 +26,23 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  const handleInputData = (event) => {
-    setFormData((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
+  const handleInputChange= e => {
+    setFormData({ ...formData,[e.target.name]: e.target.value}) 
+   
   };
 
   const handleFileInputChange = async (event) => {
     const file = event.target.files[0];
     const data = await uploadImageToCloudinary(file);
-    //console.log(data); //debugging
+    console.log(data); //debugging
     setPreviewUrl(data.url);
     setSelectedFile(data.url);
     setFormData((prevState) => ({ ...prevState, photo: data.url }));
   };
-
-  const handleFormSubmit = async (event) => {
+  const submitHandler = async event => {
+    
     event.preventDefault();
-    setLoading(true);
-    //console.log("Form data:", formData); // Debugging log
-
+    setLoading(true)
     try {
       const res = await fetch(`${BASE_URL}/auth/register`, {
         method: "post",
@@ -67,8 +68,8 @@ const Signup = () => {
       toast.error(err.message || "Something went wrong");
       setLoading(false);
     }
-  };
-
+  }
+  
   return (
     <section className="px-5 xl:px-0 pt-[15px] lg:pt-[25px] pb-[30px]">
       <div className="max-w-[570px] lg:max-w-[1170px] mx-auto shadow-xl lg:shadow-none px-4 md:px-12 lg:p-0">
@@ -86,14 +87,14 @@ const Signup = () => {
             <h3 className="text-headingColor text-[22px] leading-9 font-bold mb-10">
               Create an <span className="text-primaryColor">account</span>
             </h3>
-            <form onSubmit={handleFormSubmit}>
+            <form onSubmit={submitHandler}>
               <div className="mb-5">
                 <input
                   type="text"
                   placeholder="Enter Your Name"
                   name="name"
                   value={formData.name}
-                  onChange={handleInputData}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border-b border-solid border-[#00000070]  focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer"
                   required
                 />
@@ -104,7 +105,7 @@ const Signup = () => {
                   placeholder="Enter Your Email"
                   name="email"
                   value={formData.email}
-                  onChange={handleInputData}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border-b border-solid border-[#00000070]  focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer"
                   required
                 />
@@ -115,7 +116,7 @@ const Signup = () => {
                   placeholder="Enter Password"
                   name="password"
                   value={formData.password}
-                  onChange={handleInputData}
+                  onChange={handleInputChange}
                   className="w-full px-4 py-3 border-b border-solid border-[#00000070]  focus:outline-none focus:border-b-primaryColor text-[16px] leading-7 text-headingColor placeholder:text-textColor cursor-pointer"
                   required
                 />
@@ -130,7 +131,7 @@ const Signup = () => {
                     name="role"
                     id="role"
                     className="text-textColor font-bold text-[15px] leading-7 px-4 py-3 focus:outline-none"
-                    onChange={handleInputData}
+                    onChange={handleInputChange}
                     value={formData.role}
                   >
                     <option value="patient">Patient</option>
@@ -146,7 +147,7 @@ const Signup = () => {
                     name="gender"
                     id="gender"
                     className="text-textColor font-bold text-[15px] leading-7 px-4 py-3 focus:outline-none"
-                    onChange={handleInputData}
+                    onChange={handleInputChange}
                     value={formData.gender}
                   >
                     <option>Select</option>

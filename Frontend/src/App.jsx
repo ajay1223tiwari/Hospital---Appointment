@@ -1,12 +1,11 @@
-import "./App.css"
-import Layout from "./layout/Layout"
+import "./app.css";
+import Layout from "./layout/Layout";
 
-function App() {
+export default function App() {
   return (
-    <div>
-      <Layout/>
-    </div>
+   <>
+   <Layout/>
+  
+   </>
   )
 }
-
-export default App 

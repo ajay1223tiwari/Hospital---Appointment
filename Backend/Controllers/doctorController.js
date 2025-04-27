@@ -1,5 +1,5 @@
 import Doctor from "../models/DoctorSchema.js";
-import Booking from "../models/BookingSchema.js";
+import BookingSchema from "../models/BookingSchema.js";
 
 export const updateDoctor = async (req, res) => {
   const id = req.params.id;
@@ -22,16 +22,19 @@ export const updateDoctor = async (req, res) => {
 };
 
 export const deleteDoctor = async (req, res) => {
-  const id = req.userId;
+  const id = req.params.id;
   try {
-    // Delete doctor's bookings first
-    await Booking.deleteMany({ doctor: id });
-
-    //delete doctor's review
-    await Review.deleteMany({doctor: id});
-
-    const deletedDoctor = await Doctor.findByIdAndDelete(id);
-    res.status(200).json({ success: true, message: "Successfully Deleted", data: deletedDoctor});
+    await Doctor.findByIdAndDelete(
+      id,
+      { $set: req.body },
+      { new: true, select: "-password" }
+    );
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Successfully deleted",
+      })
   } catch (err) {
     res.status(500).json({ success: false, message: "Failed to delete" });
   }
@@ -40,61 +43,47 @@ export const deleteDoctor = async (req, res) => {
 export const getSingleDoctor = async (req, res) => {
   const id = req.params.id;
   try {
-    const doctor = await Doctor.findById(id)
-      .populate("reviews")
-      .select("-password");
+    const doctor = await Doctor.findById(id).populate('reviews').select("-password");
     res
       .status(200)
-      .json({ success: true, message: "Doctor found", data: doctor });
+      .json({
+        success: true,
+        message: "Doctors found",
+        data: doctor,
+      });
   } catch (err) {
-    res.status(500).json({ success: false, message: "Doctor not found" });
+    res.status(404).json({ success: false, message: "No doctor found" });
   }
 };
 
-export const getAll = async (req, res) => {
+export const getAllDoctor = async (req, res) => {
+
   try {
-    const doctors = await Doctor.find({}).select("-password");
-
-    if (!doctors.length) {
-      return res.status(200).json({ success: true, message: "No doctors found" });
-    }
-
-    res.status(200).json({ success: true, message: "Doctors found", data: doctors });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error", error: err.message });
-  }
-};
-
-// Controller function to get all doctors
-export const getAllDoctors = async (req, res) => {
-  try {
-    const query = req.query.query;
+    const { query } = req.query;
     let doctors;
 
-    if (query) {
-      // Find doctors where the name or specialization matches the query and are approved
+    if(query){
       doctors = await Doctor.find({
-        isApproved: "approved",
-        $or: [
-          { name: new RegExp(query, 'i') },
-          { specialization: new RegExp(query, 'i') }
-        ]
+        isApproved: 'apporoved',
+         $or:[
+          {name:{$regex: query, $options:'i'} },
+          {specialization:{$regex: query, $options:'i'}}
+        ],
       }).select("-password");
-    } else {
-      // Find all approved doctors if no query is provided
-      doctors = await Doctor.find({ isApproved: "approved" }).select("-password");
-    }
+    } else{
+       doctors = await Doctor.find({ isApproved: 'approved'}).select("-password");
 
-    // Handle case where no doctors are found
-    if (!doctors.length) {
-      return res.status(200).json({ success: true, message: "No doctors found" });
     }
-
-    // Return the list of doctors
-    res.status(200).json({ success: true, message: "Doctors found", data: doctors });
+   
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Doctors found",
+        data: doctors,
+      });
   } catch (err) {
-    // Handle errors and send a 500 status code
-    res.status(500).json({ success: false, message: "Server error", error: err.message });
+    res.status(404).json({ success: false, message: "Not found" });
   }
 };
 
@@ -108,20 +97,17 @@ export const getDoctorProfile = async (req, res) => {
         .status(404)
         .json({ success: false, message: "Doctor not found" });
     }
-    const { password, ...doctorData } = doctor._doc;
-    const appointments = await Booking.find({ doctor: doctorId, status: "approved"});
+    const { password, ...rest } = doctor._doc;
+    const appointments = await Booking.find({ doctor: doctorId});
 
-    const responseData = {
-      ...doctorData,
-      appointments: appointments
-    };
+    
 
     res
       .status(200)
       .json({
         success: true,
         message: "Getting Profile Info",
-        data: responseData,
+        data: { ...rest, appointments },
       });
   } catch (err) {
     // Debugging statement
@@ -131,23 +117,4 @@ export const getDoctorProfile = async (req, res) => {
   }
 };
 
-export const updateDoctorStatus = async (req, res) => {
-  try {
-    const { doctorId } = req.params;
-    const { isApproved } = req.body;
 
-    const updatedDoctor = await Doctor.findByIdAndUpdate(
-      doctorId,
-      { isApproved },
-      { new: true } 
-    ).select("-password");
-
-    if (!updatedDoctor) {
-      return res.status(404).json({ success: false, message: "Doctor not found" });
-    }
-
-    res.status(200).json({ success: true, message: "Doctor status updated", data: updatedDoctor });
-  } catch (err) {
-    res.status(500).json({ success: false, message: "Server error", error: err.message });
-  }
-};

@@ -16,7 +16,7 @@ export const doctors = [
   {
     id: "02",
     name: "Dr. Saleh Mahmud",
-    specialization: "Neurologist",
+    specialization: " specialization",
     avgRating: 4.8,
     totalRating: 272,
     photo: doctorImg02,

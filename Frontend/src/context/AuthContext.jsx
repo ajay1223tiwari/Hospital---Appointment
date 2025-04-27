@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import { createContext, useEffect, useReducer } from "react";
+import {  createContext, useContext, useEffect, useReducer } from "react";
 
 const getInitialState = () => {
   const initialState = {
     user: null,
     role: null,
     token: null,
-  };
+  }
 
   try {
     const userFromStorage = localStorage.getItem("user");

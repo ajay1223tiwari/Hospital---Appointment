@@ -13,20 +13,18 @@ const MyBookings = () => {
 
   return (
     <div className="mt-6">
-      {loading && !error && <Loading />}
-      {error && !loading && <Error errMsg={error} />}
-      {!loading && !error && doctors.length > 0 && (
+      
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {doctors.map((doctor) => (
             <DoctorCard doctor={doctor} key={doctor._id} />
           ))}
         </div>
-      )}
-      {!loading && !error && doctors.length === 0 && (
+      
+      
         <h2 className="mt-8 leading-7 text-[16px]  md:text-[18px] font-[600] text-primaryColor">
           You did not have any appointments yet!
         </h2>
-      )}
+      
     </div>
   );
 };

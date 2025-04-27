@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MyBookings from "./MyBookings.jsx";
 import ProfileSettings from "./ProfileSettings.jsx";
-import useGetProfile from "../../hooks/useFetchData.js";
+import useGetProfile from "../../hooks/useFetchData.jsx";
 import { BASE_URL, token} from "../../config.js";
 import Loading from "../../components/Loader/Loading.jsx";
 import Error from "../../components/Error/Error.jsx";
@@ -66,9 +66,7 @@ const UserAccount = () => {
   return (
     <section>
       <div className="max-w-[1170px] px-5 mx-auto">
-        {loading && !error && <Loading />}
-        {error && !loading && <Error errMsg={error} />}
-        {!error && !loading && (
+       
           <div className="grid md:grid-cols-3 gap-10">
             <div className="pb-[50px] px-[30px] rounded-md">
               <div className="flex itmes-center justify-center">
@@ -133,7 +131,7 @@ const UserAccount = () => {
               {tab === "settings" && <ProfileSettings user={userData} />}
             </div>
           </div>
-        )}
+        
         ;
       </div>
     </section>

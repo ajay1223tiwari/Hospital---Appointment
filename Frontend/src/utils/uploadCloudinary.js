@@ -1,5 +1,7 @@
 const upload_preset = import.meta.env.VITE_UPLOAD_PRESET;
 const cloud_name = import.meta.env.VITE_CLOUD_NAME;
+console.log(upload_preset);
+console.log(cloud_name);
 
 const uploadImageToCloudinary = async (file) => {
   const uploadData = new FormData();
@@ -11,7 +13,7 @@ const uploadImageToCloudinary = async (file) => {
     `https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`,
     {
       method: "post",
-      body: uploadData,
+      body: uploadData
     }
   );
 

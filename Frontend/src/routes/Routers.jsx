@@ -1,37 +1,36 @@
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Signup from "../pages/Signup";
-import Services from "../pages/Services";
-import Contact from "../pages/Contact";
-import Doctors from "../pages/Doctors/Doctors";
-import DoctorDetails from "../pages/Doctors/DoctorDetails";
-import UserAccount from "../Dashboard/user-account/MyAccount.jsx";
-import DashBoard from "../Dashboard/doctor-account/Dashboard.jsx";
-import ProtectedRoute from "./ProtectedRoute.jsx";
-import ScrollToTop from "../components/ScrollToTop/ScrollToTop.jsx";
-import CheckoutSuccess from "../pages/CheckoutSuccess.jsx";
+import React from 'react'
+import Home from '../pages/Home'
+import Services from '../pages/Services'
+import  Contact from '../pages/Contact'
+import  Signup from '../pages/Signup'
+import Login from '../pages/Login'
+import Doctors from '../pages/Doctors/Doctors'
+import DoctorDetails from '../pages/Doctors/DoctarDetails'
+import {Routes, Route} from 'react-router-dom'
+import MyAccount from '../Dashboard/user-account/MyAccount'
+import Dashboard from '../Dashboard/doctor-account/Dashboard'
+import CheckoutSuccess from '../pages/CheckoutSuccess'
+import ProtectedRoute from './ProtectedRoutes'
 
-import { Routes, Route } from "react-router-dom";
+import Msg from '../Dashboard/user-account/Msg'
 
-const Routers = () => {
-  return (
-    <>
-    <ScrollToTop/>
-    <Routes>
-      <Route path="/" element={<Home />}></Route>
-      <Route path="/home" element={<Home />}></Route>
-      <Route path="/login" element={<Login />}></Route>
-      <Route path="/signup" element={<Signup />}></Route>
-      <Route path="/services" element={<Services />}></Route>
-      <Route path="/contact" element={<Contact />}></Route>
-      <Route path="/doctors" element={<Doctors />}></Route>
-      <Route path="/doctors/:id" element={<DoctorDetails />}></Route>
-      <Route path="/verify" element={<CheckoutSuccess/>}></Route>
-      <Route
+
+ const Routers = () => {
+  return <Routes>
+    <Route path="/" element={<Home/>} />
+    <Route path="/home" element={<Home/>} />
+    <Route path="/doctors" element={<Doctors/>} />
+    <Route path="/doctors/:id" element={<DoctorDetails/>} />
+    <Route path="/login" element={<Login/>} />
+    <Route path="/Signup" element={<Signup/>} />
+    <Route path="/Contact" element={<Contact/>} />
+    <Route path="/services" element={<Services/>} />
+    <Route path="/Checkout-success" element={<CheckoutSuccess/>} />
+    <Route
         path="/users/profile/me"
         element={
           <ProtectedRoute allowedRoles={["patient", "admin"]}>
-            <UserAccount />
+            < MyAccount/>
           </ProtectedRoute>
         }
       ></Route>
@@ -39,13 +38,12 @@ const Routers = () => {
         path="/doctors/profile/me"
         element={
           <ProtectedRoute allowedRoles={["doctor"]}>
-            <DashBoard />
+            <Dashboard />
           </ProtectedRoute>
         }
       ></Route>
-    </Routes>
-    </>
-  );
+    
+  </Routes>
 };
 
 export default Routers;

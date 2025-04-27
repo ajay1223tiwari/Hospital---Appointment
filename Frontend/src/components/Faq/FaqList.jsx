@@ -1,13 +1,13 @@
-import { faqs } from "../../assets/data/faqs";
-import FaqItem from "./FaqItem";
+import {faqs} from './../../assets/data/faqs';
+import FaqItem from './FaqItem';
 
-const FaqList = () => {
+const FaqList =() => {
   return (
-    <div className="mt-[38px]">
-      {faqs.map((item, idx) => {
-        return <FaqItem item={item} key={idx} />;
-      })}
-    </div>
+    <ul className='mt-[38px] '>
+     {faqs.map((item,index) =>(
+         <FaqItem  item={item} key={index}/>
+         ))}
+    </ul>
   );
 };
 

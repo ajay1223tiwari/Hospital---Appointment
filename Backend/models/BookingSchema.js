@@ -12,7 +12,9 @@ const bookingSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    ticketPrice: { type: Number, required: true },
+    ticketPrice: { type: String, required: true },
+    
+    
     status: {
       type: String,
       enum: ["pending", "approved", "cancelled"],
@@ -20,22 +22,10 @@ const bookingSchema = new mongoose.Schema(
     },
     isPaid: {
       type: Boolean,
-      default: false,
-    },
-    session: {
-      type: String,  // Store Stripe Checkout session ID
-      required: false, 
+      default: true,
     },
   },
   { timestamps: true }
 );
-
-bookingSchema.pre(/^find/, function(next){
-  this.populate("user").populate({
-    path: "doctor",
-    select: "name", 
-  });
-  next();
-})
 
 export default mongoose.model("Booking", bookingSchema);

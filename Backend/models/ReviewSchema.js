@@ -65,26 +65,27 @@ reviewSchema.pre(/^find/, function (next) {
 
 reviewSchema.statics.calcAverageRatings = async function (doctorId) {
 
-  const reviews = await this.find({ doctor: doctorId });
+  const stats = await this.aggregate([
+    {
+      $match: { doctor: doctorId},
+    },
+    {
+      $group : {
+        _id: "$doctor",
+        numofRating: { $sum: 1},
+        avgRating: { $avg: "$rating"},
+      },
+    },
+  ]);
 
-  if (reviews.length > 0) {
-
-    const totalRating = reviews.length;
-    const averageRating = Math.round(
-      reviews.reduce((acc, review) => acc + review.rating, 0) / totalRating * 10
-    ) / 10;
-
+  
+  
     await Doctor.findByIdAndUpdate(doctorId, {
-      totalRating: totalRating,
-      averageRating: averageRating
-    });
-  } else {
-    await Doctor.findByIdAndUpdate(doctorId, {
-      totalRating: 0,
-      averageRating: 0
+      totalRating: stats[0].numofRating,
+      averageRating: stats[0].avgRating,
     });
   }
-};
+
 
 reviewSchema.post("save", function () {
   this.constructor.calcAverageRatings(this.doctor);

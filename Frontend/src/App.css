@@ -9,74 +9,69 @@
 body{
   font-family: "Manrope", sans-serif;
 }
-
-.header{
+.sticky__header{
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
   position: sticky;
   top: 0;
-  z-index: 100;
-  background-color: white;
+  left: 0;
+  z-index: 99999;
+  background: white;
+  box-shadow: 3px 3px -8px 3px #ddd;
 }
-
-.bar{
-  display: none;
-}
-
-@media (max-width: 920px){
+@media only screen and (max-width:768px){
   .navigation{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    z-index: 20;
-    top:0;
-    left: 0;
-    background-color: #00000084;
-    display: none;
+    width: 100;
+    height: 80px;
+ 
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background:  #00000084;
+  display: none;
   }
-
   .menu{
-    width: 60vw;
+    width: 15rem;
     height: 100%;
     position: absolute;
     top: 0;
-    right: 0;
-    background-color: #fff;
+    left: 0;
+    z-index: 100;
+    box-shadow:  #fff;
+    z-index: 200;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    line-height: 2rem;
-    display: none;
+    align-items: center;
+    line-height: 30px;
+
   }
 
-  .show_menu{
-    display: block;
-  }
+  @media only screen and (max-width: 1024px){
+    .navigation {
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      background: #00000084;
+    }
+    .show__menu{
+      width: 15rem;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #fff;
+      z-index: 200;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
 
-  .bar{
-    display: block;
-    z-index: 50;
-  }
-}
-
-.swiper{
-  padding-bottom: 70px !important;
-}
-
-@media (min-width: 976px){
-  .swiper-slide.swiper-slide-next{
-    background-color: #0067ff;
-    border-radius: 12px;
-    box-shadow: 0px 20px 40px rgba(0, 103, 255, 0.3) !important;
   }
   
-  .swiper-slide.swiper-slide-next h4, .swiper-slide.swiper-slide-next p{
-    color: #fff !important;
-  }
-}
-
-.options{
-  display: none;
-}
-
-.show_options{
-  display: block;
+  
 }

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MdError } from "react-icons/md";
 import Loader from "../../components/Loader/Loading.jsx";
 import Error from "../../components/Error/Error.jsx";
-import useGetProfile from "../../hooks/useFetchData.js";
+import useGetProfile from "../../hooks/useFetchData.jsx";
 import { BASE_URL } from "../../config.js";
 import Tabs from "./Tabs.jsx";
 import starIcon from "../../assets/images/Star.png";
@@ -19,9 +19,7 @@ const Dashboard = () => {
   return (
     <section className="pt-[45px]">
       <div className="max-w-[1170px] px-5 mx-auto">
-        {loading && !error && <Loader />}
-        {error && !loading && <Error errMsg={error}/>}
-        {!loading && !error && (
+       
           <div className="grid lg:grid-cols-3 gap-[50px] lg:gap-[100px] ">
             <Tabs tab={tab} setTab={setTab} />
             <div className="lg:col-span-2">
@@ -89,7 +87,7 @@ const Dashboard = () => {
               </div>
             </div>
           </div>
-        )}
+        
       </div>
     </section>
   );

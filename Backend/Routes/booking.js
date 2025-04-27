@@ -1,12 +1,10 @@
 import express from "express"
-import {authenticate, restrict} from '../auth/verifyToken.js'
-import { getAllAppointments, getCheckOutSession, verifyBooking, updateStatus } from "../Controllers/BookingController.js"
+import {authenticate} from '../auth/verifyToken.js'
+import {getCheckOutSession}  from "../Controllers/BookingController.js";
+
 
 const router = express.Router();
 
-router.post('/checkout-session/:doctorId', authenticate, restrict(['patient']), getCheckOutSession);
-router.post("/verify", verifyBooking);
-router.get("/allAppointments", getAllAppointments);
-router.put("/updateStatus/:id", updateStatus);
+router.post('/checkout-session/:doctorId', authenticate,  getCheckOutSession);
 
 export default router;
