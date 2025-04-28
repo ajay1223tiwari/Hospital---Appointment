@@ -1,3 +1,3 @@
-export const BASE_URL = 'http://localhost:5000/api/v1';
+export const BASE_URL = 'https://hospital-appointment-696i.onrender.com';
 export const token = localStorage.getItem('token');
 
