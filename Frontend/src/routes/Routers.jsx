@@ -12,7 +12,7 @@ import Dashboard from '../Dashboard/doctor-account/Dashboard'
 import CheckoutSuccess from '../pages/CheckoutSuccess'
 import ProtectedRoute from './ProtectedRoutes'
 
-import Msg from '../Dashboard/user-account/Msg'
+
 
 
  const Routers = () => {
